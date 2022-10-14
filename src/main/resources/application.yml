@@ -1,3 +1,97 @@
-# Application properties that need to be
-# embedded within the web application can be included here
+# ===================================================================
+# Spring Boot configuration.
+#
+# This configuration will be overridden by the Spring profile you use,
+# for example application-development.yml if you use the "development" profile.
+# ===================================================================
 
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+logging:
+  level:
+    ROOT: INFO
+
+server:
+  address: 0.0.0.0
+  port: 8443
+  ssl:
+    enabled: true
+    key-store: file:/tmp/cas/thekeystore
+    key-store-password: changeit
+    key-store-type: PKCS12
+
+
+  undertow:
+    io-threads: 10
+    worker-threads: 100
+    accesslog:
+      enabled: true
+  servlet:
+    context-path: /cas
+
+spring:
+  thymeleaf:
+    cache: false
+  application:
+    spring:
+      name: cas
+  main:
+    banner-mode: 'off'
+    lazy-initialization: false
+  output:
+    ansi:
+      enabled: always
+  security:
+    user:
+      name: admin
+      password: egvoTI4tDSC6-JVBqR02gQ
+
+# ===================================================================
+# CAS specific properties
+# ===================================================================
+
+cas:
+  server:
+    name: http://foo.bar:8080
+    prefix: ${cas.server.name}/cas
+
+  ticket:
+    registry:
+      memcached:
+        transcoder: SERIAL
+    st:
+      number-of-uses: 10
+      time-to-kill-in-seconds: 200
+    tgt:
+      primary:
+        max-time-to-live-in-seconds: 900
+        time-to-kill-in-seconds: 300
+
+  service-registry:
+    core:
+      init-from-json: false
+    json:
+      location: classpath:/services
+    schedule:
+      enabled: true
+
+  tgc:
+    same-site-policy: Lax
+    secure: false
+
+  sso:
+    proxy-authn-enabled: true
+
+  authn:
+    token:
+      crypto:
+        enabled: true
+
+    policy:
+      required-handler-authentication-policy-enabled: true
+      any:
+        try-all: false

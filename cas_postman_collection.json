@@ -1,0 +1,229 @@
+{
+	"info": {
+		"_postman_id": "7804113e-fb01-4aff-afff-cbe601d7ac9d",
+		"name": "CAS Default Overlay",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Step 1: Authenticate via rest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"pm.test(\"Body matches string\", function () {",
+							"    pm.expect(pm.response.text()).to.match(/^TGT-.*/);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "text/plain",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "casuser",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "Mellon",
+							"type": "text"
+						},
+						{
+							"key": "service",
+							"value": "https://foo.bar:8443/secure-area"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://foo.bar:8443/cas/v1/tickets",
+					"protocol": "https",
+					"host": [
+						"foo",
+						"bar"
+					],
+					"port": "8443",
+					"path": [
+						"cas",
+						"v1",
+						"tickets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step 2: Generate ST",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "https://foo.bar:8443/cas/v1/tickets/:tgt?service=https://foo.bar:8443/secure-area",
+					"protocol": "https",
+					"host": [
+						"foo",
+						"bar"
+					],
+					"port": "8443",
+					"path": [
+						"cas",
+						"v1",
+						"tickets",
+						":tgt"
+					],
+					"query": [
+						{
+							"key": "service",
+							"value": "https://foo.bar:8443/secure-area"
+						}
+					],
+					"variable": [
+						{
+							"key": "tgt",
+							"value": "TGT-1-bdwI08Ba7rzavEsMDVkl1Bw-fxhh48oYTyWYy-VOZBcPTdjLDDCwseKklilWV2JIYv0-M383"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step 3: Login by token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 302\", function () {",
+							"    pm.response.to.have.status(302);",
+							"});",
+							"pm.test(\"TGC is set\", function () {",
+							"    pm.expect(pm.cookies.get(\"TGC\")).to.eql(undefined);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://foo.bar:8443/cas/login?service=https://foo.bar:8443/secure-area&token=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6IjJkNDYyOGEzLWEwYmYtNDhmNy1hYjU1LTA0ZWNiNjI5MTZkOCIsIm9yZy5hcGVyZW8uY2FzLnNlcnZpY2VzLlJlZ2lzdGVyZWRTZXJ2aWNlIjoiMTAwMDAwMTAifQ.eyJhdWQiOiJodHRwczovL2Zvby5iYXI6ODQ0My9zZWN1cmUtYXJlYSIsInN1YiI6ImNhc3VzZXIiLCJpc3MiOiJodHRwOi8vZm9vLmJhcjo4MDgwL2NhcyIsImV4cCI6MTY2NTc2ODQ3OCwiaWF0IjoxNjY1NzY3NTc4LCJqdGkiOiJTVC0xLXpTREtCM1o0ZEd3QUZmbi1iNmY1bmJNU1ZZNC1NMzgzIn0.nl_ni7wKMlPvkJ3aXBiIsyZXF6juLY-rabqr3Ci5_SvZd2N6lX0Py3omdBYhm67q6T9ER9g7oB4TbdQnNSsFFA",
+					"protocol": "https",
+					"host": [
+						"foo",
+						"bar"
+					],
+					"port": "8443",
+					"path": [
+						"cas",
+						"login"
+					],
+					"query": [
+						{
+							"key": "service",
+							"value": "https://foo.bar:8443/secure-area"
+						},
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6IjJkNDYyOGEzLWEwYmYtNDhmNy1hYjU1LTA0ZWNiNjI5MTZkOCIsIm9yZy5hcGVyZW8uY2FzLnNlcnZpY2VzLlJlZ2lzdGVyZWRTZXJ2aWNlIjoiMTAwMDAwMTAifQ.eyJhdWQiOiJodHRwczovL2Zvby5iYXI6ODQ0My9zZWN1cmUtYXJlYSIsInN1YiI6ImNhc3VzZXIiLCJpc3MiOiJodHRwOi8vZm9vLmJhcjo4MDgwL2NhcyIsImV4cCI6MTY2NTc2ODQ3OCwiaWF0IjoxNjY1NzY3NTc4LCJqdGkiOiJTVC0xLXpTREtCM1o0ZEd3QUZmbi1iNmY1bmJNU1ZZNC1NMzgzIn0.nl_ni7wKMlPvkJ3aXBiIsyZXF6juLY-rabqr3Ci5_SvZd2N6lX0Py3omdBYhm67q6T9ER9g7oB4TbdQnNSsFFA"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step 4: Login by SSO",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 302\", function () {",
+							"    pm.response.to.have.status(302);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://foo.bar:8443/cas/login?service=https://foo.bar:8443/secure-area",
+					"protocol": "https",
+					"host": [
+						"foo",
+						"bar"
+					],
+					"port": "8443",
+					"path": [
+						"cas",
+						"login"
+					],
+					"query": [
+						{
+							"key": "service",
+							"value": "https://foo.bar:8443/secure-area"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

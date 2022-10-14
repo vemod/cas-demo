@@ -1,0 +1,49 @@
+{
+  "@class": "org.apereo.cas.services.CasRegisteredService",
+  "serviceId": ".*",
+  "name": "foo",
+  "id": 10000010,
+  "evaluationOrder": 10,
+  "attributeReleasePolicy" : {
+    "@class" : "org.apereo.cas.services.ReturnAllowedAttributeReleasePolicy",
+    "allowedAttributes" : [ "java.util.ArrayList", ["username" ]],
+    "authorizedToReleaseCredentialPassword": false,
+    "authorizedToReleaseProxyGrantingTicket": false,
+    "authorizedToReleaseAuthenticationAttributes": false,
+    "excludeDefaultAttributes": true,
+    "principalIdAttribute": ""
+  },
+  "accessStrategy": {
+    "@class": "org.apereo.cas.services.DefaultRegisteredServiceAccessStrategy",
+    "enabled": true,
+    "ssoEnabled": true,
+    "requiredAttributes" : {
+      "@class" : "java.util.HashMap",
+      "credentialType": [ "java.util.HashSet", [ "^UsernamePasswordCredential$",
+        "^TokenCredential$" ] ]
+    }
+  },
+  "properties" : {
+    "@class" : "java.util.HashMap",
+    "jwtAsServiceTicket" : {
+      "@class" : "org.apereo.cas.services.DefaultRegisteredServiceProperty",
+      "values" : [ "java.util.HashSet", [ "true" ] ]
+    },
+    "jwtSigningSecret" : {
+      "@class" : "org.apereo.cas.services.DefaultRegisteredServiceProperty",
+      "values" : [ "java.util.HashSet", [ "FOOutpI9ZKPSVkVYXd-aDhq1r7JmlyZpN0v4exin-mMEqY1jkPBkca34mmo4A4Y7HUrBMxO_uwtuHdxzpixQ_WZPVArj6BLZepKhIaQt0ZSIG8fosDt-VNwqlR2NJsd9SKc3XByAogAU9p8UmgwVhb6YYHGQ8AXy7ZiKcak9cUs3GExZWfmiVEJh5S7T68AJoVL105AzE9QWB-fWK0PwCuE47726eUiLndGLP45GvRnPFVP007hqGBArWOmWbqw_" ] ]
+    },
+    "jwtAsServiceTicketSigningKey" : {
+      "@class" : "org.apereo.cas.services.DefaultRegisteredServiceProperty",
+      "values" : [ "java.util.HashSet", [ "FOOutpI9ZKPSVkVYXd-aDhq1r7JmlyZpN0v4exin-mMEqY1jkPBkca34mmo4A4Y7HUrBMxO_uwtuHdxzpixQ_WZPVArj6BLZepKhIaQt0ZSIG8fosDt-VNwqlR2NJsd9SKc3XByAogAU9p8UmgwVhb6YYHGQ8AXy7ZiKcak9cUs3GExZWfmiVEJh5S7T68AJoVL105AzE9QWB-fWK0PwCuE47726eUiLndGLP45GvRnPFVP007hqGBArWOmWbqw_" ] ]
+    },
+    "jwtSigningSecretAlg" : {
+      "@class" : "org.apereo.cas.services.DefaultRegisteredServiceProperty",
+      "values" : [ "java.util.HashSet", [ "HS256" ] ]
+    },
+    "jwtSecretsAreBase64Encoded" : {
+      "@class" : "org.apereo.cas.services.DefaultRegisteredServiceProperty",
+      "values" : [ "java.util.HashSet", [ "false" ] ]
+    }
+  }
+}

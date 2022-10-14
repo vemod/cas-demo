@@ -137,10 +137,22 @@ dependencies {
         }
     }
 
+    // JSON Service registry
+    implementation "org.apereo.cas:cas-server-support-json-service-registry"
+
+    // Enable login via rest api
+    implementation "org.apereo.cas:cas-server-support-rest-tokens"
+
+    // Enable JWT token authentication
+    implementation "org.apereo.cas:cas-server-support-token-webflow"
+
+    // Enable JWT service tickets
+    implementation "org.apereo.cas:cas-server-support-token-tickets"
 
 
-    
-    
+
+
+
     developmentOnly "org.springframework.boot:spring-boot-devtools:${project.springBootVersion}"
 }
 
